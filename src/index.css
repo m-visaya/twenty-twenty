@@ -1,0 +1,41 @@
+:root {
+  --color-primary: #efe65c;
+  --color-primary-light: #fffccc;
+  --color-secondary: #2f4858;
+}
+
+body {
+  font-family: "Fira Sans Condensed", sans-serif !important;
+}
+
+.text-yellow {
+  color: var(--color-primary);
+}
+
+.text-seconday {
+  color: var(--color-secondary);
+}
+
+.bg-yellow {
+  background-color: var(--color-primary) !important;
+}
+
+.btn-icon {
+  font-size: 3rem;
+}
+
+.timer-circle {
+  fill: none;
+}
+
+.timer-fill {
+  /* transform: scale(0.5); */
+  stroke: var(--color-primary);
+  stroke-width: 1rem;
+}
+
+.timer-base {
+  stroke: var(--color-primary-light);
+  stroke-width: 1rem;
+  stroke-dasharray: 165, 600;
+}
