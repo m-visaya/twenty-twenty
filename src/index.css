@@ -4,20 +4,21 @@
   --color-secondary: #2f4858;
 }
 
-body {
-  font-family: "Fira Sans Condensed", sans-serif !important;
-}
-
 .text-yellow {
   color: var(--color-primary);
 }
 
-.text-seconday {
+.text-gray {
   color: var(--color-secondary);
 }
 
 .bg-yellow {
   background-color: var(--color-primary) !important;
+}
+
+.bg-gray {
+  background-color: var(--color-secondary) !important;
+  color: #ffffff !important;
 }
 
 .btn-icon {
@@ -37,5 +38,45 @@ body {
 .timer-base {
   stroke: var(--color-primary-light);
   stroke-width: 1rem;
-  stroke-dasharray: 165, 600;
+  stroke-dasharray: 252, 252;
+  transition-property: all;
+  transition-duration: 1s;
+  transition-timing-function: linear;
+  /* animation: timer ease-in-out infinite 10s; */
+}
+
+.timer-progress {
+  stroke-dasharray: 252, 252;
+}
+
+.timer-svg {
+  transform: rotate(90deg);
+}
+
+#section-right i {
+  cursor: pointer;
+}
+
+#section-right i:hover {
+  color: hsl(56, 82%, 50%);
+  transition: all ease-in-out 200ms;
+}
+
+button.bg-yellow:hover {
+  background-color: hsl(56, 82%, 50%) !important;
+  transition: all ease-in-out 200ms;
+}
+
+button.bg-gray:hover {
+  background-color: hsl(203, 30%, 20%) !important;
+  transition: all ease-in-out 200ms;
+}
+
+@keyframes timer {
+  from {
+    stroke-dasharray: 252, 252;
+  }
+  to {
+    stroke-dasharray: 0, 252;
+  }
 }
