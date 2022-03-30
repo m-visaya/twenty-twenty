@@ -16,6 +16,10 @@
   background-color: var(--color-primary) !important;
 }
 
+.bg-yellow-light {
+  background-color: var(--color-primary-light) !important;
+}
+
 .bg-gray {
   background-color: var(--color-secondary) !important;
   color: #ffffff !important;
@@ -25,19 +29,40 @@
   font-size: 3rem;
 }
 
-.timer-circle {
+.timer-fill {
+  stroke: #000;
+  stroke-width: 0.8rem;
+  z-index: 1;
   fill: none;
 }
 
-.timer-fill {
-  /* transform: scale(0.5); */
-  stroke: var(--color-primary);
-  stroke-width: 1rem;
+#filter-gradient {
+  stroke-width: 0.8rem;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    #fffccc 0%,
+    #ffff75 25%,
+    #efe65c 50%,
+    #ffc5a5 75%,
+    #f98e71 100%
+  );
+  z-index: 2;
+  mix-blend-mode: lighten;
+}
+
+#section-left :not(#filter-gradient):not(.timer-fill) {
+  z-index: 2;
+}
+
+#section-left {
+  overflow: hidden;
 }
 
 .timer-base {
-  stroke: var(--color-primary-light);
-  stroke-width: 1rem;
+  fill: none;
+  /* stroke: var(--color-primary-light); */
+  stroke: gainsboro;
+  stroke-width: 0.83rem;
   stroke-dasharray: 252, 252;
   transition-property: all;
   transition-duration: 1s;
@@ -45,21 +70,40 @@
   /* animation: timer ease-in-out infinite 10s; */
 }
 
-.timer-progress {
-  stroke-dasharray: 252, 252;
-}
-
 .timer-svg {
   transform: rotate(90deg);
 }
 
-#section-right i {
+.animation-expand {
+  animation: click 1s ease;
+}
+
+@keyframes click {
+  25% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.bi {
   cursor: pointer;
 }
 
 #section-right i:hover {
   color: hsl(56, 82%, 50%);
   transition: all ease-in-out 200ms;
+}
+
+#controls-break-timer i {
+  font-size: 3.5rem;
+  transition: all ease 200ms;
+}
+
+#controls-break-timer i:hover {
+  transform: scale(1.2) !important;
+  color: hsl(56, 82%, 50%);
 }
 
 button.bg-yellow:hover {
@@ -78,5 +122,16 @@ button.bg-gray:hover {
   }
   to {
     stroke-dasharray: 0, 252;
+  }
+}
+
+@media (max-width: 991px) {
+  .display-3 {
+    font-size: 5rem !important;
+    font-weight: 600 !important;
+  }
+
+  #txt-break-time {
+    color: var(--color-secondary) !important;
   }
 }

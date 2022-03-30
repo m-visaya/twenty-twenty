@@ -24,21 +24,24 @@
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
       crossorigin="anonymous"
     ></script>
-    <script src="test.js" defer></script>
+    <script src="timer.js" defer></script>
   </head>
-  <body class="d-flex flex-column" style="height: 100vh">
-    <header class="container-fluid py-2 shadow-sm">
-      <div class="row">
-        <div class="col">
-          <img src="./assets/logo.svg" alt="" style="height: 3rem" />
-        </div>
-      </div>
+  <body class="d-flex flex-column bg-white" style="height: 100vh">
+    <header
+      class="container-fluid py-2 shadow-sm d-flex align-items-center px-3"
+    >
+      <img src="./assets/icon.svg" alt="" style="height: 2rem" class="me-2" />
+      <img src="./assets/logo.svg" alt="" style="height: 2rem" />
+      <!-- <i class="bi bi-sun-fill ms-auto mb-0 me-3 fs-2 text-yellow"></i> -->
+      <i class="bi bi-moon-stars-fill ms-auto mb-0 me-4 fs-3 text-gray"></i>
+      <i class="bi bi-three-dots mb-0 me-3 fs-3 text-gray"></i>
     </header>
     <main class="d-flex align-items-center" style="height: 100%">
-      <div class="container">
+      <div class="container" style="max-width: 1000px !important">
         <div class="row justify-content-center">
           <div
             class="col d-flex justify-content-center align-items-center position-relative"
+            id="section-left"
           >
             <svg
               style="max-height: 27rem; min-height: 20rem"
@@ -46,35 +49,61 @@
               viewBox="0 0 100 100"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <g class="timer-circle">
-                <circle class="timer-fill" cx="50" cy="50" r="40"></circle>
-                <path
-                  id="timer-base"
-                  stroke-dasharray="283"
-                  class="timer-base"
-                  d="
-                  M 50, 50
-                  m -40, 0
-                  a 40,40 0 1,0 80,0
-                  a 40,40 0 1,0 -80,0
-                "
-                ></path>
-              </g>
+              <circle cx="50" cy="50" r="40" class="timer-fill"></circle>
+            </svg>
+            <div
+              class="position-absolute"
+              style="width: 27rem; height: 27rem"
+              id="filter-gradient"
+            ></div>
+            <svg
+              style="max-height: 27rem; min-height: 20rem"
+              class="timer-svg position-absolute"
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                id="timer-base"
+                stroke-dasharray="283"
+                class="timer-base"
+                d="
+              M 50, 50
+              m -40, 0
+              a 40,40 0 1,0 80,0
+              a 40,40 0 1,0 -80,0
+            "
+              ></path>
             </svg>
             <div
               class="d-flex flex-column text-center position-absolute translate-middle top-50 start-50"
             >
               <p
-                class="display-3 fw-normal mb-1 lh-1 text-yellow"
+                class="display-3 mb-0 mb-lg-1 lh-1 text-yellow order-lg-first order-2"
                 id="txt-break-time"
               >
-                20:00
+                00:00
               </p>
-              <p class="fs-4 lh-1 text-gray">next break</p>
+              <p class="fs-4 lh-1 text-gray order-1 mb-0 mt-3 my-lg-0">
+                next break
+              </p>
+              <div
+                class="d-flex d-lg-none justify-content-center align-items-center order-3"
+                id="controls-break-timer"
+              >
+                <i
+                  class="bi bi-play-fill text-yellow display-1 my-0 lh-1"
+                  id="btn-start-timer"
+                ></i>
+                <i
+                  class="bi bi-pause-fill text-yellow display-1 my-0 lh-1"
+                  style="display: none"
+                  id="btn-resume-pause"
+                ></i>
+              </div>
             </div>
           </div>
           <div
-            class="d-none d-md-flex col d-flex flex-column align-items-center justify-content-center"
+            class="d-none d-lg-flex col d-flex flex-column align-items-center justify-content-center"
           >
             <div class="d-flex flex-column">
               <p class="mb-0 lh-1 fs-3">time elapsed</p>
@@ -83,7 +112,7 @@
                 style="font-size: 7rem"
                 id="txt-elapsed-time"
               >
-                99:59:55
+                00:00:00
               </h1>
             </div>
             <div
@@ -92,20 +121,24 @@
             >
               <button
                 class="text-gray btn bg-yellow px-5 pt-1 fw-bold fs-3 me-2"
-                id="btn-start-timer"
+                id="btn-start-timer2"
               >
                 start
               </button>
               <i
                 class="bi bi-pause-fill text-yellow btn-icon display-1 lh-1"
-              ></i>
-              <i
-                class="d-none bi bi-play-fill text-yellow btn-icon display-1 lh-1"
+                id="btn-resume-pause2"
               ></i>
             </div>
           </div>
         </div>
       </div>
     </main>
+    <!-- <footer
+      class="bg-yellow-light d-flex align-items-center px-2 text-gray"
+      style="height: 3rem"
+    >
+      Footer text
+    </footer> -->
   </body>
 </html>
