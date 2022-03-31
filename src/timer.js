@@ -2,6 +2,13 @@ let nextBreak = 10;
 let timerInterval = null;
 let isPaused = false;
 
+let fireNotification = (body, title = null) => {
+  new Notification(title || "twenty-twenty", {
+    body: body,
+    icon: "./assets/icon.png",
+  });
+};
+
 let timerFunc = () => {
   //elapsed time timer
   let currTime = $("#txt-elapsed-time").text().trim();
@@ -45,7 +52,9 @@ let timerFunc = () => {
   );
 
   if (seconds == 0 && minutes == 0) {
+    pauseTimer();
     resetBreakTimer();
+    fireNotification((body = "It's time for a break"));
     return;
   }
 
@@ -95,13 +104,16 @@ let startTimer = () => {
     timerInterval = null;
     isPaused = false;
 
+    resetTimer();
+
     $("#btn-start-timer").toggleClass(["bi-play-fill", "bi-stop-fill"]);
+    $("#btn-resume-pause").removeClass(["bi-pause-fill", "bi-play-fill"]);
+    $("#btn-resume-pause").addClass("bi-pause-fill");
     $("#btn-resume-pause").toggle();
 
     $("#btn-start-timer2").toggleClass(["bg-yellow", "bg-gray"]);
     $("#btn-start-timer2").text("start");
 
-    resetTimer();
     $("#btn-resume-pause2").removeClass(["bi-pause-fill", "bi-play-fill"]);
     $("#btn-resume-pause2").addClass("bi-pause-fill");
   } else {
@@ -112,6 +124,8 @@ let startTimer = () => {
     $("#btn-start-timer2").text("stop");
 
     timerInterval = setInterval(timerFunc, 1000);
+
+    fireNotification((body = "Timer started"));
   }
 };
 
@@ -132,6 +146,8 @@ let pauseTimer = () => {
   }
 };
 
+let openSettings = () => {};
+
 resetTimer();
 
 $("#btn-start-timer").on("click", startTimer);
@@ -139,3 +155,5 @@ $("#btn-start-timer2").on("click", startTimer);
 
 $("#btn-resume-pause").on("click", pauseTimer);
 $("#btn-resume-pause2").on("click", pauseTimer);
+
+$("#btn-settings").on("click", openSettings);
