@@ -125,6 +125,36 @@ button.bg-gray:hover {
   }
 }
 
+.form-check {
+  padding-left: 0 !important;
+  padding-bottom: 1rem;
+  font-weight: 500;
+  border-bottom: rgb(230, 226, 226) solid 1px;
+}
+
+.form-label {
+  font-weight: 500;
+}
+
+.form-switch {
+  margin-left: 0 !important;
+}
+
+.form-check-input:checked {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+.form-check-input {
+  height: 1.4rem !important;
+  width: 2.5rem !important;
+}
+
+.bg-yellow:focus,
+.form-check-input:focus {
+  box-shadow: 0 0 0 0.25rem var(--color-primary-light) !important;
+}
+
 @media (max-width: 991px) {
   .display-3 {
     font-size: 5rem !important;

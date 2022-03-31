@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings</title>
+    <link rel="stylesheet" href="index.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <main class="my-5 overflow-hidden">
+      <div class="row px-5 px-lg-0 justify-content-center">
+        <div class="col-lg-8 d-flex flex-column gap-4">
+          <h1
+            class="text-gray fw-bold display-2 text-center text-md-start mb-5"
+          >
+            Settings
+          </h1>
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input float-end"
+              type="checkbox"
+              role="switch"
+              id="flexSwitchCheckDefault"
+            />
+            <label class="form-check-label" for="flexSwitchCheckDefault"
+              >Launch app on system startup</label
+            >
+          </div>
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input float-end"
+              type="checkbox"
+              role="switch"
+              id="flexSwitchCheckDefault"
+            />
+            <label class="form-check-label" for="flexSwitchCheckDefault"
+              >Disable desktop notifications</label
+            >
+          </div>
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input float-end"
+              type="checkbox"
+              role="switch"
+              id="flexSwitchCheckDefault"
+            />
+            <label class="form-check-label" for="flexSwitchCheckDefault"
+              >Auto start timer when app is launched</label
+            >
+          </div>
+          <div class="d-flex align-items-center">
+            <label class="form-label" for="flexSwitchCheckDefault"
+              >Modify break-time interval</label
+            >
+            <select
+              class="form-select ms-auto mt-0"
+              style="max-width: 12rem"
+              aria-label="Default select example"
+            >
+              <option value="1">Every 10 minutes</option>
+              <option selected value="1">Every 20 minutes</option>
+              <option value="2">Every 30 minutes</option>
+              <option value="3">Every 40 minutes</option>
+              <option value="3">Every 50 minutes</option>
+              <option value="3">Every hour</option>
+            </select>
+          </div>
+          <div
+            class="d-flex mt-5 mb-2 justify-content-center justify-content-md-end gap-4"
+          >
+            <button class="btn btn-secondary fw-bold">Cancel Changes</button>
+            <button class="btn bg-yellow text-gray fw-bold">
+              Confirm Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

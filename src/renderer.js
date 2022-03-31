@@ -146,7 +146,9 @@ let pauseTimer = () => {
   }
 };
 
-let openSettings = () => {};
+let openSettings = () => {
+  window.electronAPI.openSettings();
+};
 
 resetTimer();
 
