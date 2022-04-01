@@ -147,16 +147,55 @@ let pauseTimer = () => {
 };
 
 let openSettings = () => {
-  console.log(window.electronAPI);
   window.electronAPI.openSettings();
 };
 
 let closeSettings = () => {
-  console.log(window.electronAPI);
-  window.electronAPI.closeSettings();
+  let prefs = {
+    breakTimeInterval: $("#prefs-breakTimeInterval").val(),
+    notifications: !!$("#prefs-desktopNotifications").prop("checked") || false,
+    launchOnStartup: !!$("#prefs-launchOnStartup").prop("checked") || false,
+    autoStartTimer: !!$("#prefs-autoStartTimer").prop("checked") || false,
+  };
+
+  window.electronAPI.closeSettings(prefs);
 };
 
-resetTimer();
+let loadSettings = async () => {
+  const prefs = await window.electronAPI.fetchSettings();
+  $("#prefs-breakTimeInterval").val(prefs.breakTimeInterval);
+  $("#prefs-desktopNotifications").prop("checked", prefs.notifications);
+  $("#prefs-launchOnStartup").prop("checked", prefs.launchOnStartup);
+  $("#prefs-autoStartTimer").prop("checked", prefs.autoStartTimer);
+};
+
+let loadPreferences = async () => {
+  const prefs = await window.electronAPI.fetchSettings();
+  nextBreak = prefs.breakTimeInterval * 60;
+  resetTimer();
+};
+
+let toggleDarkMode = () => {
+  $("#btn-darkmode").toggleClass([
+    "text-gray",
+    "text-yellow",
+    "bi-moon-stars-fill",
+    "bi-sun-fill",
+  ]);
+
+  $("#body-settings").toggleClass(["bg-white", "bg-dark", "dark-mode"]);
+  $("#body-index").toggleClass(["bg-white", "bg-dark", "dark-mode"]);
+  $("#header-index").toggleClass("bg-header");
+
+  $("#filter-gradient").toggle();
+  setTimeout(() => $("#filter-gradient").toggle(), 800);
+
+  if ($("#body-index").hasClass("bg-dark")) {
+    $("#logo").prop("src", "./assets/logo-light.svg");
+  } else {
+    $("#logo").prop("src", "./assets/logo.svg");
+  }
+};
 
 $("#btn-start-timer").on("click", startTimer);
 $("#btn-start-timer2").on("click", startTimer);
@@ -166,3 +205,8 @@ $("#btn-resume-pause2").on("click", pauseTimer);
 
 $("#btn-settings").on("click", openSettings);
 $("#btn-close-settings").on("click", closeSettings);
+
+$("#btn-darkmode").on("click", toggleDarkMode);
+
+$("body-settings").ready(loadSettings);
+$("body-index").ready(loadPreferences);

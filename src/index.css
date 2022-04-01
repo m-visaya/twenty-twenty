@@ -1,7 +1,23 @@
-:root {
+body {
   --color-primary: #efe65c;
   --color-primary-light: #fffccc;
   --color-secondary: #2f4858;
+
+  transition: background-color ease 1s !important;
+}
+
+body.dark-mode {
+  --color-primary: #efe65c;
+  --color-primary-light: #fffccc;
+  --color-secondary: #dfebf3;
+}
+
+.bg-header {
+  background-color: #2f4858;
+}
+
+#header-index {
+  transition: background-color ease 1s !important;
 }
 
 /* scrollbar */
@@ -58,6 +74,12 @@
   fill: none;
 }
 
+body.dark-mode .timer-fill {
+  stroke: #fff;
+  stroke-width: 0.83rem;
+
+}
+
 #filter-gradient {
   stroke-width: 0.8rem;
   background: conic-gradient(
@@ -70,6 +92,10 @@
   );
   z-index: 2;
   mix-blend-mode: lighten;
+}
+
+body.dark-mode #filter-gradient {
+  mix-blend-mode: darken;
 }
 
 #section-left :not(#filter-gradient):not(.timer-fill) {

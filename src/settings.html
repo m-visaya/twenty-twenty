@@ -28,7 +28,7 @@
     ></script>
     <script src="renderer.js" defer></script>
   </head>
-  <body>
+  <body class="bg-white" id="body-settings">
     <main class="my-5 overflow-hidden">
       <div class="row px-5 px-lg-0 justify-content-center">
         <div class="col-lg-8 d-flex flex-column gap-4">
@@ -44,9 +44,9 @@
               class="form-check-input float-end"
               type="checkbox"
               role="switch"
-              id="flexSwitchCheckDefault"
+              id="prefs-launchOnStartup"
             />
-            <label class="form-check-label" for="flexSwitchCheckDefault"
+            <label class="form-check-label" for="prefs-launchOnStartup"
               >Launch app on system startup</label
             >
           </div>
@@ -55,9 +55,9 @@
               class="form-check-input float-end"
               type="checkbox"
               role="switch"
-              id="flexSwitchCheckDefault"
+              id="prefs-desktopNotifications"
             />
-            <label class="form-check-label" for="flexSwitchCheckDefault"
+            <label class="form-check-label" for="prefs-desktopNotifications"
               >Disable desktop notifications</label
             >
           </div>
@@ -66,9 +66,9 @@
               class="form-check-input float-end"
               type="checkbox"
               role="switch"
-              id="flexSwitchCheckDefault"
+              id="prefs-autoStartTimer"
             />
-            <label class="form-check-label" for="flexSwitchCheckDefault"
+            <label class="form-check-label" for="prefs-autoStartTimer"
               >Auto start timer when app is launched</label
             >
           </div>
@@ -80,13 +80,15 @@
               class="form-select ms-auto mt-0"
               style="max-width: 12rem"
               aria-label="Default select example"
+              value="10"
+              id="prefs-breakTimeInterval"
             >
-              <option value="1">Every 10 minutes</option>
-              <option selected value="1">Every 20 minutes</option>
-              <option value="2">Every 30 minutes</option>
-              <option value="3">Every 40 minutes</option>
-              <option value="3">Every 50 minutes</option>
-              <option value="3">Every hour</option>
+              <option value="10">Every 10 minutes</option>
+              <option selected value="20">Every 20 minutes</option>
+              <option value="30">Every 30 minutes</option>
+              <option value="40">Every 40 minutes</option>
+              <option value="50">Every 50 minutes</option>
+              <option value="60">Every hour</option>
             </select>
           </div>
         </div>
