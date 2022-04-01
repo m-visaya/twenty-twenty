@@ -26,16 +26,19 @@
       integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
       crossorigin="anonymous"
     ></script>
+    <script src="renderer.js" defer></script>
   </head>
   <body>
     <main class="my-5 overflow-hidden">
       <div class="row px-5 px-lg-0 justify-content-center">
         <div class="col-lg-8 d-flex flex-column gap-4">
-          <h1
-            class="text-gray fw-bold display-2 text-center text-md-start mb-5"
-          >
-            Settings
-          </h1>
+          <div class="d-flex align-items-center mb-3 mb-md-5">
+            <h1 class="text-gray fw-bold display-2">Settings</h1>
+            <i
+              class="bi bi-x-circle text-muted ms-auto fs-1"
+              id="btn-close-settings"
+            ></i>
+          </div>
           <div class="form-check form-switch">
             <input
               class="form-check-input float-end"
@@ -85,14 +88,6 @@
               <option value="3">Every 50 minutes</option>
               <option value="3">Every hour</option>
             </select>
-          </div>
-          <div
-            class="d-flex mt-5 mb-2 justify-content-center justify-content-md-end gap-4"
-          >
-            <button class="btn btn-secondary fw-bold">Cancel Changes</button>
-            <button class="btn bg-yellow text-gray fw-bold">
-              Confirm Changes
-            </button>
           </div>
         </div>
       </div>

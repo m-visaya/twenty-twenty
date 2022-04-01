@@ -12,6 +12,7 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
@@ -24,13 +25,28 @@ const createWindow = () => {
   // mainWindow.webContents.openDevTools();
 };
 
-const handleOpenSettings = () => {
+const handleOpenSettings = (event) => {
+  const parent = BrowserWindow.fromWebContents(event.sender);
   const settingsWindow = new BrowserWindow({
     width: 700,
     height: 500,
+    autoHideMenuBar: true,
+    parent: parent,
+    modal: true,
+    show: false,
+    frame: false,
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"),
+    },
   });
-
   settingsWindow.loadFile(path.join(__dirname, "settings.html"));
+  settingsWindow.show();
+};
+
+const handleCloseSettings = (event) => {
+  const settingsWindow = BrowserWindow.fromWebContents(event.sender);
+  // settingsWindow.hide();
+  settingsWindow.close();
 };
 
 // Globally enable sandboxing for all renderers
@@ -41,6 +57,7 @@ app.enableSandbox();
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   ipcMain.on("open-settings", handleOpenSettings);
+  ipcMain.on("close-settings", handleCloseSettings);
   createWindow();
 });
 

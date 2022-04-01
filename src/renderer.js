@@ -147,7 +147,13 @@ let pauseTimer = () => {
 };
 
 let openSettings = () => {
+  console.log(window.electronAPI);
   window.electronAPI.openSettings();
+};
+
+let closeSettings = () => {
+  console.log(window.electronAPI);
+  window.electronAPI.closeSettings();
 };
 
 resetTimer();
@@ -159,3 +165,4 @@ $("#btn-resume-pause").on("click", pauseTimer);
 $("#btn-resume-pause2").on("click", pauseTimer);
 
 $("#btn-settings").on("click", openSettings);
+$("#btn-close-settings").on("click", closeSettings);
