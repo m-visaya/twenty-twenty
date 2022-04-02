@@ -12,6 +12,10 @@ body.dark-mode {
   --color-secondary: #dfebf3;
 }
 
+header {
+  -webkit-app-region: drag;
+}
+
 .bg-header {
   background-color: #2f4858;
 }

@@ -31,7 +31,7 @@ class Save {
 const save = new Save({
   configName: "user-preferences",
   defaults: {
-    nightmode: false,
+    darkmode: false,
     launchOnStartup: false,
     notifications: true,
     autoStartTimer: false,
@@ -51,8 +51,16 @@ const createWindow = () => {
     width: 800,
     height: 600,
     autoHideMenuBar: true,
+    minWidth: 500,
+    minHeight: 480,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
+    },
+    titleBarStyle: "hidden",
+    titleBarOverlay: {
+      color: "#2f4858",
+      symbolColor: "#eee",
+      height: 34,
     },
   });
 
@@ -68,6 +76,8 @@ const handleOpenSettings = (event) => {
   const settingsWindow = new BrowserWindow({
     width: 700,
     height: 500,
+    minWidth: 500,
+    minHeight: 400,
     autoHideMenuBar: true,
     parent: parent,
     modal: true,
@@ -101,6 +111,14 @@ const handleFetchSettings = () => {
   }
 };
 
+const handleDarkMode = (event, darkmode) => {
+  console.log("dads");
+
+  save.set("darkmode", darkmode);
+
+  console.log(save);
+};
+
 // Globally enable sandboxing for all renderers
 app.enableSandbox();
 
@@ -111,6 +129,7 @@ app.whenReady().then(() => {
   ipcMain.on("open-settings", handleOpenSettings);
   ipcMain.on("close-settings", handleCloseSettings);
   ipcMain.handle("fetch-settings", handleFetchSettings);
+  ipcMain.on("set-darkmode", handleDarkMode);
 
   createWindow();
 });

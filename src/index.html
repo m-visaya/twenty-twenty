@@ -32,17 +32,25 @@
     id="body-index"
   >
     <header
-      class="container-fluid py-2 shadow-sm d-flex align-items-center px-3"
+      class="container-fluid shadow-sm d-flex align-items-center px-2 position-relative"
       id="header-index"
+      style="padding-top: 0.4rem; padding-bottom: 0.372rem"
     >
-      <img src="./assets/icon.svg" alt="" style="height: 2rem" class="me-2" />
-      <img src="./assets/logo.svg" alt="" style="height: 2rem" id="logo" />
-      <!-- <i class="bi bi-sun-fill ms-auto mb-0 me-3 fs-2 text-yellow"></i> -->
-      <i
-        class="bi bi-moon-stars-fill ms-auto mb-0 me-4 fs-3 text-gray"
-        id="btn-darkmode"
-      ></i>
-      <i class="bi bi-gear-fill mb-0 me-3 fs-2 text-gray" id="btn-settings"></i>
+      <img
+        src="./assets/icon.svg"
+        alt=""
+        style="height: 1.2rem"
+        class="me-2 ms-1"
+      />
+      <img src="./assets/logo.svg" alt="" style="height: 1.35rem" id="logo" />
+
+      <div
+        class="d-flex position-absolute top-100 end-0 align-items-center gap-3 gap-sm-4 m-4 m-md-5"
+        style="z-index: 5"
+      >
+        <i class="bi bi-moon-stars-fill fs-3 text-gray" id="btn-darkmode"></i>
+        <i class="bi bi-gear-fill fs-2 text-gray" id="btn-settings"></i>
+      </div>
     </header>
 
     <main class="d-flex align-items-center" style="height: 100%">
@@ -112,7 +120,7 @@
             </div>
           </div>
           <div
-            class="d-none d-lg-flex col d-flex flex-column align-items-center justify-content-center"
+            class="d-none d-lg-flex col d-flex flex-column align-items-start justify-content-center"
           >
             <div class="d-flex flex-column">
               <p class="mb-0 lh-1 fs-3 text-gray">time elapsed</p>
@@ -125,7 +133,7 @@
               </h1>
             </div>
             <div
-              class="d-flex align-items-center justify-content-center mt-3"
+              class="d-flex align-items-center justify-content-center mt-3 mx-auto"
               id="section-right"
             >
               <button

@@ -192,7 +192,9 @@ let toggleDarkMode = () => {
 
   if ($("#body-index").hasClass("bg-dark")) {
     $("#logo").prop("src", "./assets/logo-light.svg");
+    window.electronAPI.setDarkMode(true);
   } else {
+    window.electronAPI.setDarkMode(false);
     $("#logo").prop("src", "./assets/logo.svg");
   }
 };
