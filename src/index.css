@@ -2,6 +2,7 @@ body {
   --color-primary: #efe65c;
   --color-primary-light: #fffccc;
   --color-secondary: #2f4858;
+  --color-text: #efefef;
 
   transition: background-color ease 1s !important;
 }
@@ -10,9 +11,12 @@ body.dark-mode {
   --color-primary: #efe65c;
   --color-primary-light: #fffccc;
   --color-secondary: #dfebf3;
+  --color-text: #222;
+
 }
 
 header {
+  /* -webkit-user-select: none; */
   -webkit-app-region: drag;
 }
 
@@ -22,6 +26,52 @@ header {
 
 #header-index {
   transition: background-color ease 1s !important;
+  height: 2.5rem;
+}
+
+body.dark-mode .controls .col:hover {
+  background-color: #405c6d;
+}
+
+body.dark-mode .controls .close:hover {
+  background-color: #e81123;
+  color: #f1f1f1;
+}
+
+.controls .col:hover {
+  background-color: #ebebeb;
+  transition: background-color ease 300ms !important;
+}
+
+.controls .close:hover {
+  background-color: #e81123;
+}
+
+.controls .close:hover .bi {
+  color: #f1f1f1;
+}
+
+.controls {
+  height: 100%;
+  -webkit-app-region: none;
+}
+
+.controls .bi {
+  color: var(--color-secondary);
+  cursor: default;
+}
+
+#options {
+  top: 3rem;
+}
+
+.tooltip .tooltip-inner {
+  background-color: var(--color-secondary);
+  color: var(--color-text);
+}
+
+.tooltip .tooltip-arrow::before {
+  border-left-color: var(--color-secondary) !important;
 }
 
 /* scrollbar */

@@ -194,9 +194,21 @@ let toggleDarkMode = () => {
     $("#logo").prop("src", "./assets/logo-light.svg");
     window.electronAPI.setDarkMode(true);
   } else {
-    window.electronAPI.setDarkMode(false);
     $("#logo").prop("src", "./assets/logo.svg");
+    window.electronAPI.setDarkMode(false);
   }
+};
+
+let toggleMinimize = () => {
+  window.electronAPI.toggleMinimize();
+};
+
+let toggleMaximize = () => {
+  window.electronAPI.toggleMaximize();
+};
+
+let toggleClose = () => {
+  window.electronAPI.toggleClose();
 };
 
 $("#btn-start-timer").on("click", startTimer);
@@ -210,5 +222,16 @@ $("#btn-close-settings").on("click", closeSettings);
 
 $("#btn-darkmode").on("click", toggleDarkMode);
 
+$("#control-minimize").on("click", toggleMinimize);
+$("#control-maximize").on("click", toggleMaximize);
+$("#control-close").on("click", toggleClose);
+
 $("body-settings").ready(loadSettings);
 $("body-index").ready(loadPreferences);
+
+var tooltipTriggerList = [].slice.call(
+  document.querySelectorAll('[data-bs-toggle="tooltip"]')
+);
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl);
+});

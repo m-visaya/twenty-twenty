@@ -57,11 +57,6 @@ const createWindow = () => {
       preload: path.join(__dirname, "preload.js"),
     },
     titleBarStyle: "hidden",
-    titleBarOverlay: {
-      color: "#2f4858",
-      symbolColor: "#eee",
-      height: 34,
-    },
   });
 
   // and load the index.html of the app.
@@ -112,11 +107,22 @@ const handleFetchSettings = () => {
 };
 
 const handleDarkMode = (event, darkmode) => {
-  console.log("dads");
-
   save.set("darkmode", darkmode);
+};
 
-  console.log(save);
+const toggleMinimize = (event) => {
+  const window = BrowserWindow.fromWebContents(event.sender);
+  window.minimize();
+};
+
+const toggleMaximize = (event) => {
+  const window = BrowserWindow.fromWebContents(event.sender);
+  window.isMaximized() ? window.restore() : window.maximize();
+};
+
+const toggleClose = (event) => {
+  const window = BrowserWindow.fromWebContents(event.sender);
+  window.close();
 };
 
 // Globally enable sandboxing for all renderers
@@ -128,8 +134,12 @@ app.enableSandbox();
 app.whenReady().then(() => {
   ipcMain.on("open-settings", handleOpenSettings);
   ipcMain.on("close-settings", handleCloseSettings);
-  ipcMain.handle("fetch-settings", handleFetchSettings);
   ipcMain.on("set-darkmode", handleDarkMode);
+  ipcMain.on("toggle-minimize", toggleMinimize);
+  ipcMain.on("toggle-maximize", toggleMaximize);
+  ipcMain.on("toggle-close", toggleClose);
+
+  ipcMain.handle("fetch-settings", handleFetchSettings);
 
   createWindow();
 });

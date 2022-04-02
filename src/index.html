@@ -27,33 +27,64 @@
     <script src="renderer.js" defer></script>
   </head>
   <body
-    class="d-flex flex-column bg-white"
+    class="d-flex flex-column bg-white position-relative"
     style="height: 100vh"
     id="body-index"
   >
     <header
-      class="container-fluid shadow-sm d-flex align-items-center px-2 position-relative"
+      class="container-fluid shadow-sm row align-items-center px-0 mx-0 position-fixed"
       id="header-index"
-      style="padding-top: 0.4rem; padding-bottom: 0.372rem"
     >
-      <img
-        src="./assets/icon.svg"
-        alt=""
-        style="height: 1.2rem"
-        class="me-2 ms-1"
-      />
-      <img src="./assets/logo.svg" alt="" style="height: 1.35rem" id="logo" />
-
-      <div
-        class="d-flex position-absolute top-100 end-0 align-items-center gap-3 gap-sm-4 m-4 m-md-5"
-        style="z-index: 5"
-      >
-        <i class="bi bi-moon-stars-fill fs-3 text-gray" id="btn-darkmode"></i>
-        <i class="bi bi-gear-fill fs-2 text-gray" id="btn-settings"></i>
+      <div class="col px-2 d-flex align-items-center" id="header-clickable">
+        <img
+          src="./assets/icon.svg"
+          alt=""
+          style="height: 1.4rem"
+          class="me-2 ms-1"
+        />
+        <img src="./assets/logo.svg" alt="" style="height: 1.4rem" id="logo" />
+      </div>
+      <div class="col-auto controls row">
+        <div class="col d-flex align-items-center px-3" id="control-minimize">
+          <i class="bi bi-dash-lg"></i>
+        </div>
+        <div class="col d-flex align-items-center px-3" id="control-maximize">
+          <i class="bi bi-app"></i>
+        </div>
+        <div
+          class="col d-flex align-items-center px-3 close"
+          id="control-close"
+        >
+          <i class="bi bi-x-lg"></i>
+        </div>
       </div>
     </header>
 
-    <main class="d-flex align-items-center" style="height: 100%">
+    <div
+      class="d-flex flex-column flex-sm-row-reverse position-absolute end-0 align-items-center gap-2 gap-sm-4 mx-4 mx-md-5 mt-3"
+      style="z-index: 5"
+      id="options"
+    >
+      <i
+        class="bi bi-gear-fill fs-2 text-gray"
+        id="btn-settings"
+        data-bs-toggle="tooltip"
+        data-bs-placement="left"
+        title="Settings"
+      ></i>
+      <i
+        class="bi bi-moon-stars-fill fs-2 text-gray"
+        id="btn-darkmode"
+        data-bs-toggle="tooltip"
+        data-bs-placement="left"
+        title="Toggle Darkmode"
+      ></i>
+    </div>
+
+    <main
+      class="d-flex align-items-center"
+      style="height: 100%; margin-top: 2.5rem"
+    >
       <div class="container" style="max-width: 1000px !important">
         <div class="row justify-content-center">
           <div
@@ -100,7 +131,7 @@
               >
                 00:00
               </p>
-              <p class="fs-4 lh-1 text-gray order-1 mb-0 mt-3 my-lg-0">
+              <p class="fs-4 lh-1 text-gray order-1 mb-1 mt-3 my-lg-0">
                 next break
               </p>
               <div
