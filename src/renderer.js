@@ -125,7 +125,7 @@ let startTimer = () => {
 
     timerInterval = setInterval(timerFunc, 1000);
 
-    fireNotification((body = "Timer started"));
+    fireNotification("Timer started");
   }
 };
 
@@ -173,6 +173,12 @@ let loadPreferences = async () => {
   const prefs = await window.electronAPI.fetchSettings();
   nextBreak = prefs.breakTimeInterval * 60;
   resetTimer();
+
+  if (prefs.darkmode) {
+    toggleDarkMode();
+  }
+
+  $("#body-index").css("transition", "background-color ease 1s");
 };
 
 let toggleDarkMode = () => {
@@ -226,8 +232,8 @@ $("#control-minimize").on("click", toggleMinimize);
 $("#control-maximize").on("click", toggleMaximize);
 $("#control-close").on("click", toggleClose);
 
-$("body-settings").ready(loadSettings);
-$("body-index").ready(loadPreferences);
+$("#body-settings").ready(loadSettings);
+$("#body-index").ready(loadPreferences);
 
 var tooltipTriggerList = [].slice.call(
   document.querySelectorAll('[data-bs-toggle="tooltip"]')

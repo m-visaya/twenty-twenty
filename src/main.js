@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, nativeTheme } = require("electron");
 const path = require("path");
 const fs = require("fs");
 
@@ -56,7 +56,7 @@ const createWindow = () => {
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
-    titleBarStyle: "hidden",
+    frame: false,
   });
 
   // and load the index.html of the app.
@@ -140,6 +140,8 @@ app.whenReady().then(() => {
   ipcMain.on("toggle-close", toggleClose);
 
   ipcMain.handle("fetch-settings", handleFetchSettings);
+
+  save.set("darkmode", nativeTheme.shouldUseDarkColors);
 
   createWindow();
 });
