@@ -1,6 +1,7 @@
 let nextBreak = 10;
 let timerInterval = null;
 let isPaused = false;
+let prefs = null;
 
 let fireNotification = (body, title = null) => {
   new Notification(title || "twenty-twenty", {
@@ -162,7 +163,7 @@ let closeSettings = () => {
 };
 
 let loadSettings = async () => {
-  const prefs = await window.electronAPI.fetchSettings();
+  let prefs = await window.electronAPI.fetchSettings();
   $("#prefs-breakTimeInterval").val(prefs.breakTimeInterval);
   $("#prefs-desktopNotifications").prop("checked", prefs.notifications);
   $("#prefs-launchOnStartup").prop("checked", prefs.launchOnStartup);
@@ -170,11 +171,12 @@ let loadSettings = async () => {
 };
 
 let loadPreferences = async () => {
-  const prefs = await window.electronAPI.fetchSettings();
+  prefs = await window.electronAPI.fetchSettings();
   nextBreak = prefs.breakTimeInterval * 60;
   resetTimer();
 
   if (prefs.darkmode) {
+    prefs.darkmode = !prefs.darkmode;
     toggleDarkMode();
   }
 
@@ -196,12 +198,14 @@ let toggleDarkMode = () => {
   $("#filter-gradient").toggle();
   setTimeout(() => $("#filter-gradient").toggle(), 800);
 
-  if ($("#body-index").hasClass("bg-dark")) {
+  if (!prefs.darkmode) {
     $("#logo").prop("src", "./assets/logo-light.svg");
     window.electronAPI.setDarkMode(true);
+    prefs.darkmode = true;
   } else {
     $("#logo").prop("src", "./assets/logo.svg");
     window.electronAPI.setDarkMode(false);
+    prefs.darkmode = false;
   }
 };
 
@@ -232,8 +236,8 @@ $("#control-minimize").on("click", toggleMinimize);
 $("#control-maximize").on("click", toggleMaximize);
 $("#control-close").on("click", toggleClose);
 
-$("#body-settings").ready(loadSettings);
 $("#body-index").ready(loadPreferences);
+$("#body-settings").ready(loadSettings);
 
 var tooltipTriggerList = [].slice.call(
   document.querySelectorAll('[data-bs-toggle="tooltip"]')

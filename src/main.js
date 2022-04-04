@@ -141,8 +141,6 @@ app.whenReady().then(() => {
 
   ipcMain.handle("fetch-settings", handleFetchSettings);
 
-  save.set("darkmode", nativeTheme.shouldUseDarkColors);
-
   createWindow();
 });
 

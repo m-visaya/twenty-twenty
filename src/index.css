@@ -2,15 +2,16 @@ body {
   --color-primary: #efe65c;
   --color-primary-light: #fffccc;
   --color-secondary: #2f4858;
-  --color-text: #efefef;
+  --color-text: #222;
+  --color-tooltip: #efefef;
 }
 
 body.dark-mode {
   --color-primary: #efe65c;
   --color-primary-light: #fffccc;
   --color-secondary: #dfebf3;
-  --color-text: #222;
-
+  --color-text: #efefef;
+  --color-tooltip: #222;
 }
 
 header {
@@ -68,7 +69,7 @@ body.dark-mode .controls .close:hover {
 
 .tooltip .tooltip-inner {
   background-color: var(--color-secondary);
-  color: var(--color-text);
+  color: var(--color-tooltip);
 }
 
 .tooltip .tooltip-arrow::before {
@@ -95,6 +96,10 @@ body.dark-mode .controls .close:hover {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(85, 85, 85, 0.518);
+}
+
+label {
+  color: var(--color-text);
 }
 
 .text-yellow {
@@ -217,6 +222,19 @@ button.bg-yellow:hover {
 button.bg-gray:hover {
   background-color: hsl(203, 30%, 20%) !important;
   transition: all ease-in-out 200ms;
+}
+
+#body-settings {
+  animation: fadein 1s ease;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes timer {
