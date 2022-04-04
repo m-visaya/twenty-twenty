@@ -1,7 +1,6 @@
 let nextBreak = 10;
 let timerInterval = null;
 let isPaused = false;
-let prefs = null;
 
 let fireNotification = (body, title = null) => {
   new Notification(title || "twenty-twenty", {
@@ -149,6 +148,7 @@ let pauseTimer = () => {
 
 let openSettings = () => {
   window.electronAPI.openSettings();
+  $("#body-index").css("transition", "background-color ease 1s");
 };
 
 let closeSettings = () => {
@@ -165,48 +165,50 @@ let closeSettings = () => {
 let loadSettings = async () => {
   let prefs = await window.electronAPI.fetchSettings();
   $("#prefs-breakTimeInterval").val(prefs.breakTimeInterval);
+  $("#prefs-appTheme").val(prefs.appTheme);
   $("#prefs-desktopNotifications").prop("checked", prefs.notifications);
   $("#prefs-launchOnStartup").prop("checked", prefs.launchOnStartup);
   $("#prefs-autoStartTimer").prop("checked", prefs.autoStartTimer);
+
+  $("#body-settings").css("transition", "none");
 };
 
 let loadPreferences = async () => {
-  prefs = await window.electronAPI.fetchSettings();
+  let prefs = await window.electronAPI.fetchSettings();
   nextBreak = prefs.breakTimeInterval * 60;
   resetTimer();
-
-  if (prefs.darkmode) {
-    prefs.darkmode = !prefs.darkmode;
-    toggleDarkMode();
-  }
-
-  $("#body-index").css("transition", "background-color ease 1s");
+  await toggleAppTheme(prefs.appTheme);
 };
 
-let toggleDarkMode = () => {
-  $("#btn-darkmode").toggleClass([
-    "text-gray",
-    "text-yellow",
-    "bi-moon-stars-fill",
-    "bi-sun-fill",
-  ]);
+let toggleAppTheme = async (theme) => {
+  $("#body-settings").css("transition", "background-color ease 1s");
 
-  $("#body-settings").toggleClass(["bg-white", "bg-dark", "dark-mode"]);
-  $("#body-index").toggleClass(["bg-white", "bg-dark", "dark-mode"]);
-  $("#header-index").toggleClass("bg-header");
+  if (theme == "system") {
+    window.electronAPI.setAppTheme(theme);
+    theme = await window.electronAPI.fetchSetting("isNativeThemeDark");
+    theme = theme == true ? "dark" : "light";
+  } else {
+    window.electronAPI.setAppTheme(theme);
+  }
 
   $("#filter-gradient").toggle();
-  setTimeout(() => $("#filter-gradient").toggle(), 800);
 
-  if (!prefs.darkmode) {
+  if (theme == "dark") {
+    $("#body-settings").removeClass(["bg-white"]);
+    $("#body-settings").addClass(["bg-dark", "dark-mode"]);
+    $("#body-index").removeClass(["bg-white"]);
+    $("#body-index").addClass(["bg-dark", "dark-mode"]);
+    $("#header-index").addClass("bg-header");
     $("#logo").prop("src", "./assets/logo-light.svg");
-    window.electronAPI.setDarkMode(true);
-    prefs.darkmode = true;
   } else {
+    $("#body-settings").addClass(["bg-white"]);
+    $("#body-settings").removeClass(["bg-dark", "dark-mode"]);
+    $("#body-index").addClass(["bg-white"]);
+    $("#body-index").removeClass(["bg-dark", "dark-mode"]);
+    $("#header-index").removeClass("bg-header");
     $("#logo").prop("src", "./assets/logo.svg");
-    window.electronAPI.setDarkMode(false);
-    prefs.darkmode = false;
   }
+  setTimeout(() => $("#filter-gradient").toggle(), 800);
 };
 
 let toggleMinimize = () => {
@@ -221,6 +223,10 @@ let toggleClose = () => {
   window.electronAPI.toggleClose();
 };
 
+window.electronAPI.onUpdateTheme((_event, value) => {
+  toggleAppTheme(value);
+});
+
 $("#btn-start-timer").on("click", startTimer);
 $("#btn-start-timer2").on("click", startTimer);
 
@@ -230,14 +236,16 @@ $("#btn-resume-pause2").on("click", pauseTimer);
 $("#btn-settings").on("click", openSettings);
 $("#btn-close-settings").on("click", closeSettings);
 
-$("#btn-darkmode").on("click", toggleDarkMode);
-
 $("#control-minimize").on("click", toggleMinimize);
 $("#control-maximize").on("click", toggleMaximize);
 $("#control-close").on("click", toggleClose);
 
 $("#body-index").ready(loadPreferences);
 $("#body-settings").ready(loadSettings);
+
+$("#prefs-appTheme").change(function () {
+  toggleAppTheme(this.value);
+});
 
 var tooltipTriggerList = [].slice.call(
   document.querySelectorAll('[data-bs-toggle="tooltip"]')

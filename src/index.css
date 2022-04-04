@@ -4,14 +4,16 @@ body {
   --color-secondary: #2f4858;
   --color-text: #222;
   --color-tooltip: #efefef;
+  --color-form-div:#e6e2e2 ;
 }
 
 body.dark-mode {
   --color-primary: #efe65c;
   --color-primary-light: #fffccc;
   --color-secondary: #dfebf3;
-  --color-text: #efefef;
+  --color-text: #efeded;
   --color-tooltip: #222;
+  --color-form-div:#363434 ;
 }
 
 header {
@@ -107,7 +109,7 @@ label {
 }
 
 .text-gray {
-  color: var(--color-secondary);
+  color: var(--color-text);
 }
 
 .bg-yellow {
@@ -125,6 +127,10 @@ label {
 
 .btn-icon {
   font-size: 3rem;
+}
+
+#btn-start-timer2 {
+ color: #222 !important;
 }
 
 .timer-fill {
@@ -220,21 +226,8 @@ button.bg-yellow:hover {
 }
 
 button.bg-gray:hover {
-  background-color: hsl(203, 30%, 20%) !important;
+  filter: brightness(50%) !important;
   transition: all ease-in-out 200ms;
-}
-
-#body-settings {
-  animation: fadein 1s ease;
-}
-
-@keyframes fadein {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 
 @keyframes timer {
@@ -246,11 +239,11 @@ button.bg-gray:hover {
   }
 }
 
-.form-check {
+.form-check, .dropdown {
   padding-left: 0 !important;
   padding-bottom: 1rem;
   font-weight: 500;
-  border-bottom: rgb(230, 226, 226) solid 1px;
+  border-bottom: var(--color-form-div) solid 1px;
 }
 
 .form-label {
@@ -274,6 +267,15 @@ button.bg-gray:hover {
 .bg-yellow:focus,
 .form-check-input:focus {
   box-shadow: 0 0 0 0.25rem var(--color-primary-light) !important;
+}
+
+#btn-close-settings {
+  z-index: 5;
+}
+
+#btn-close-settings:hover {
+  transition: color 300ms ease;
+  color: var(--color-text) !important;
 }
 
 @media (max-width: 991px) {

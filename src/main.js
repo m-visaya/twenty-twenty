@@ -2,6 +2,15 @@ const { app, BrowserWindow, ipcMain, nativeTheme } = require("electron");
 const path = require("path");
 const fs = require("fs");
 
+const defaults = {
+  appTheme: "system",
+  launchOnStartup: false,
+  notifications: true,
+  autoStartTimer: false,
+  breakTimeInterval: 20,
+  isNativeThemeDark: nativeTheme.shouldUseDarkColors,
+};
+
 // Create class for storing user data
 class Save {
   constructor(prefs) {
@@ -30,13 +39,7 @@ class Save {
 
 const save = new Save({
   configName: "user-preferences",
-  defaults: {
-    darkmode: false,
-    launchOnStartup: false,
-    notifications: true,
-    autoStartTimer: false,
-    breakTimeInterval: 60,
-  },
+  defaults: defaults,
 });
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -102,12 +105,27 @@ const handleFetchSettings = () => {
   try {
     return save.data;
   } catch (error) {
-    return;
+    return defaults;
   }
 };
 
-const handleDarkMode = (event, darkmode) => {
-  save.set("darkmode", darkmode);
+const handleFetchSetting = (event, pref) => {
+  try {
+    return save.get(pref);
+  } catch (error) {
+    return defaults[pref];
+  }
+};
+
+const setAppTheme = (event, theme) => {
+  const window = BrowserWindow.fromWebContents(event.sender);
+  const parentWindow = window.getParentWindow();
+
+  try {
+    parentWindow.webContents.send("update-theme", theme);
+  } catch (error) {}
+
+  save.set("appTheme", theme);
 };
 
 const toggleMinimize = (event) => {
@@ -134,12 +152,15 @@ app.enableSandbox();
 app.whenReady().then(() => {
   ipcMain.on("open-settings", handleOpenSettings);
   ipcMain.on("close-settings", handleCloseSettings);
-  ipcMain.on("set-darkmode", handleDarkMode);
+  ipcMain.on("set-app-theme", setAppTheme);
   ipcMain.on("toggle-minimize", toggleMinimize);
   ipcMain.on("toggle-maximize", toggleMaximize);
   ipcMain.on("toggle-close", toggleClose);
 
   ipcMain.handle("fetch-settings", handleFetchSettings);
+  ipcMain.handle("fetch-setting", handleFetchSetting);
+
+  save.set("isNativeThemeDark", nativeTheme.shouldUseDarkColors);
 
   createWindow();
 });

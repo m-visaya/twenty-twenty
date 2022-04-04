@@ -4,8 +4,10 @@ contextBridge.exposeInMainWorld("electronAPI", {
   closeSettings: (prefs) => ipcRenderer.send("close-settings", prefs),
   openSettings: () => ipcRenderer.send("open-settings"),
   fetchSettings: () => ipcRenderer.invoke("fetch-settings"),
-  setDarkMode: (darkmode) => ipcRenderer.send("set-darkmode", darkmode),
+  fetchSetting: (pref) => ipcRenderer.invoke("fetch-setting", pref),
+  setAppTheme: (theme) => ipcRenderer.send("set-app-theme", theme),
   toggleMinimize: () => ipcRenderer.send("toggle-minimize"),
   toggleMaximize: () => ipcRenderer.send("toggle-maximize"),
   toggleClose: () => ipcRenderer.send("toggle-close"),
+  onUpdateTheme: (callback) => ipcRenderer.on("update-theme", callback),
 });
