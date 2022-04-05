@@ -70,6 +70,15 @@ const createWindow = () => {
 };
 
 const handleOpenSettings = (event) => {
+  let theme = save.get("appTheme");
+  let nativeDarkTheme = save.get("isNativeThemeDark");
+  theme =
+    theme == "system" && nativeDarkTheme
+      ? "dark"
+      : theme == "system" && !nativeDarkTheme
+      ? "light"
+      : theme;
+
   const parent = BrowserWindow.fromWebContents(event.sender);
   const settingsWindow = new BrowserWindow({
     width: 700,
@@ -79,14 +88,14 @@ const handleOpenSettings = (event) => {
     autoHideMenuBar: true,
     parent: parent,
     modal: true,
-    show: false,
+    show: true,
     frame: false,
+    backgroundColor: theme == "dark" ? "#212529" : "#fff",
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
   });
   settingsWindow.loadFile(path.join(__dirname, "settings.html"));
-  settingsWindow.show();
 };
 
 const handleCloseSettings = (event, prefs) => {

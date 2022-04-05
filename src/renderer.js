@@ -4,6 +4,14 @@ let isPaused = false;
 let pendingNextBreak = null;
 let notifications = true;
 
+var tooltipTriggerList = [].slice.call(
+  document.querySelectorAll('[data-bs-toggle="tooltip"]')
+);
+
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl);
+});
+
 let fireNotification = (title, body, icon) => {
   if (notifications) {
     new Notification(title, {
@@ -83,14 +91,7 @@ let timerFunc = () => {
 };
 
 let resetTimer = () => {
-  $("#txt-break-time").text(
-    `${Math.floor(nextBreak / 60)
-      .toString()
-      .padStart(2, "0")}:${Math.floor(nextBreak % 60)
-      .toString()
-      .padStart(2, "0")}`
-  );
-  $("#timer-base").css("stroke-dasharray", "252 252");
+  resetBreakTimer();
   $("#txt-elapsed-time").text("00:00:00");
 };
 
@@ -166,29 +167,6 @@ let openSettings = () => {
   $("#body-index").css("transition", "background-color ease 1s");
 };
 
-let closeSettings = () => {
-  let prefs = {
-    breakTimeInterval: $("#prefs-breakTimeInterval").val(),
-    notifications: !!$("#prefs-desktopNotifications").prop("checked") || false,
-    launchOnStartup: !!$("#prefs-launchOnStartup").prop("checked") || false,
-    autoStartTimer: !!$("#prefs-autoStartTimer").prop("checked") || false,
-  };
-
-  window.electronAPI.closeSettings(prefs);
-  $("#btn-start-timer2").toggle();
-};
-
-let loadSettings = async () => {
-  let prefs = await window.electronAPI.fetchSettings();
-  $("#prefs-breakTimeInterval").val(prefs.breakTimeInterval);
-  $("#prefs-appTheme").val(prefs.appTheme);
-  $("#prefs-desktopNotifications").prop("checked", prefs.notifications);
-  $("#prefs-launchOnStartup").prop("checked", prefs.launchOnStartup);
-  $("#prefs-autoStartTimer").prop("checked", prefs.autoStartTimer);
-
-  $("#body-settings").css("transition", "none");
-};
-
 let loadPreferences = async () => {
   let prefs = await window.electronAPI.fetchSettings();
   nextBreak = prefs.breakTimeInterval * 60;
@@ -201,37 +179,6 @@ let loadPreferences = async () => {
   }
 };
 
-let toggleAppTheme = async (theme) => {
-  $("#body-settings").css("transition", "background-color ease 1s");
-
-  if (theme == "system") {
-    window.electronAPI.setAppTheme(theme);
-    theme = await window.electronAPI.fetchSetting("isNativeThemeDark");
-    theme = theme == true ? "dark" : "light";
-  } else {
-    window.electronAPI.setAppTheme(theme);
-  }
-
-  $("#filter-gradient").toggle();
-
-  if (theme == "dark") {
-    $("#body-settings").removeClass(["bg-white"]);
-    $("#body-settings").addClass(["bg-dark", "dark-mode"]);
-    $("#body-index").removeClass(["bg-white"]);
-    $("#body-index").addClass(["bg-dark", "dark-mode"]);
-    $("#header-index").addClass("bg-header");
-    $("#logo").prop("src", "./assets/logo-light.svg");
-  } else {
-    $("#body-settings").addClass(["bg-white"]);
-    $("#body-settings").removeClass(["bg-dark", "dark-mode"]);
-    $("#body-index").addClass(["bg-white"]);
-    $("#body-index").removeClass(["bg-dark", "dark-mode"]);
-    $("#header-index").removeClass("bg-header");
-    $("#logo").prop("src", "./assets/logo.svg");
-  }
-  setTimeout(() => $("#filter-gradient").toggle(), 800);
-};
-
 let toggleMinimize = () => {
   window.electronAPI.toggleMinimize();
 };
@@ -242,6 +189,28 @@ let toggleMaximize = () => {
 
 let toggleClose = () => {
   window.electronAPI.toggleClose();
+};
+
+let toggleAppTheme = async (theme) => {
+  if (theme == "system") {
+    theme = await window.electronAPI.fetchSetting("isNativeThemeDark");
+    theme = theme == true ? "dark" : "light";
+  }
+
+  $("#filter-gradient").toggle();
+
+  if (theme == "dark") {
+    $("#body-index").removeClass(["bg-white"]);
+    $("#body-index").addClass(["bg-dark", "dark-mode"]);
+    $("#header-index").addClass("bg-header");
+    $("#logo").prop("src", "./assets/logo-light.svg");
+  } else {
+    $("#body-index").addClass(["bg-white"]);
+    $("#body-index").removeClass(["bg-dark", "dark-mode"]);
+    $("#header-index").removeClass("bg-header");
+    $("#logo").prop("src", "./assets/logo.svg");
+  }
+  setTimeout(() => $("#filter-gradient").toggle(), 800);
 };
 
 window.electronAPI.onUpdateTheme((_event, value) => {
@@ -266,22 +235,9 @@ $("#btn-resume-pause").on("click", pauseTimer);
 $("#btn-resume-pause2").on("click", pauseTimer);
 
 $("#btn-settings").on("click", openSettings);
-$("#btn-close-settings").on("click", closeSettings);
 
 $("#control-minimize").on("click", toggleMinimize);
 $("#control-maximize").on("click", toggleMaximize);
 $("#control-close").on("click", toggleClose);
 
 $("#body-index").ready(loadPreferences);
-$("#body-settings").ready(loadSettings);
-
-$("#prefs-appTheme").change(function () {
-  toggleAppTheme(this.value);
-});
-
-var tooltipTriggerList = [].slice.call(
-  document.querySelectorAll('[data-bs-toggle="tooltip"]')
-);
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-  return new bootstrap.Tooltip(tooltipTriggerEl);
-});
