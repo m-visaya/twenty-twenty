@@ -164,8 +164,6 @@ app.setLoginItemSettings({
   openAtLogin: save.get("launchOnStartup"),
 });
 
-app.setName("twemty twenty");
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -183,6 +181,10 @@ app.whenReady().then(() => {
   save.set("isNativeThemeDark", nativeTheme.shouldUseDarkColors);
 
   createWindow();
+
+  if (process.platform === "win32") {
+    app.setAppUserModelId("twenty twenty");
+  }
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
