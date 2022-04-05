@@ -61,7 +61,6 @@ body.dark-mode .controls .close:hover {
 
 .controls .bi {
   color: var(--color-secondary);
-  cursor: default;
   font-size: .9rem;
 }
 
