@@ -150,7 +150,7 @@ body.dark-mode .timer-fill {
   stroke-width: 0.8rem;
   background: conic-gradient(
     from 0deg at 50% 50%,
-    #fffccc 0%,
+    #ede9a2 0%,
     #ffff75 25%,
     #efe65c 50%,
     #ffc5a5 75%,
@@ -210,13 +210,17 @@ body.dark-mode #filter-gradient {
   transition: all ease-in-out 200ms;
 }
 
+#section-right {
+  height: 3rem;
+}
+
 #controls-break-timer i {
   font-size: 3.5rem;
   transition: all ease 200ms;
 }
 
 #controls-break-timer i:hover {
-  transform: scale(1.2) !important;
+  transform: scale(1.1);
   color: hsl(56, 82%, 50%);
 }
 
