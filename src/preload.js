@@ -10,4 +10,6 @@ contextBridge.exposeInMainWorld("electronAPI", {
   toggleMaximize: () => ipcRenderer.send("toggle-maximize"),
   toggleClose: () => ipcRenderer.send("toggle-close"),
   onUpdateTheme: (callback) => ipcRenderer.on("update-theme", callback),
+  onUpdatePreferences: (callback) =>
+    ipcRenderer.on("update-preferences", callback),
 });

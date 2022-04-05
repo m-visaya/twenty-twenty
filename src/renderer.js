@@ -1,12 +1,16 @@
 let nextBreak = 10;
 let timerInterval = null;
 let isPaused = false;
+let pendingNextBreak = null;
+let notifications = true;
 
-let fireNotification = (body, title = null) => {
-  new Notification(title || "twenty-twenty", {
-    body: body,
-    icon: "./assets/icon.png",
-  });
+let fireNotification = (title, body, icon) => {
+  if (notifications) {
+    new Notification(title, {
+      body: body,
+      icon: icon,
+    });
+  }
 };
 
 let timerFunc = () => {
@@ -51,10 +55,14 @@ let timerFunc = () => {
     `${((minutes * 60 + seconds - 2) / nextBreak) * 252} ${252}`
   );
 
-  if (seconds == 0 && minutes == 0) {
+  if (seconds == 1 && minutes == 0) {
     pauseTimer();
     resetBreakTimer();
-    fireNotification((body = "It's time for a break"));
+    fireNotification(
+      "It's time for a break",
+      "Taking frequent breaks reduces eye strain",
+      "./assets/icon-break-time.png"
+    );
     return;
   }
 
@@ -87,6 +95,7 @@ let resetTimer = () => {
 };
 
 let resetBreakTimer = () => {
+  nextBreak = pendingNextBreak ? pendingNextBreak : nextBreak;
   $("#txt-break-time").text(
     `${Math.floor(nextBreak / 60)
       .toString()
@@ -116,16 +125,22 @@ let startTimer = () => {
 
     $("#btn-resume-pause2").removeClass(["bi-pause-fill", "bi-play-fill"]);
     $("#btn-resume-pause2").addClass("bi-pause-fill");
+    $("#btn-resume-pause2").toggle();
   } else {
     $("#btn-start-timer").toggleClass(["bi-play-fill", "bi-stop-fill"]);
     $("#btn-resume-pause").toggle();
 
     $("#btn-start-timer2").toggleClass(["bg-yellow", "bg-gray"]);
     $("#btn-start-timer2").text("stop");
+    $("#btn-resume-pause2").toggle();
 
     timerInterval = setInterval(timerFunc, 1000);
 
-    fireNotification("Timer started");
+    fireNotification(
+      "Timer Started",
+      `Break time reminder every ${Math.floor(nextBreak / 60)} minutes`,
+      "./assets/icon-start-timer.png"
+    );
   }
 };
 
@@ -160,6 +175,7 @@ let closeSettings = () => {
   };
 
   window.electronAPI.closeSettings(prefs);
+  $("#btn-start-timer2").toggle();
 };
 
 let loadSettings = async () => {
@@ -177,7 +193,12 @@ let loadPreferences = async () => {
   let prefs = await window.electronAPI.fetchSettings();
   nextBreak = prefs.breakTimeInterval * 60;
   resetTimer();
+  notifications = prefs.notifications;
   await toggleAppTheme(prefs.appTheme);
+
+  if (prefs.autoStartTimer) {
+    startTimer();
+  }
 };
 
 let toggleAppTheme = async (theme) => {
@@ -225,6 +246,17 @@ let toggleClose = () => {
 
 window.electronAPI.onUpdateTheme((_event, value) => {
   toggleAppTheme(value);
+});
+
+window.electronAPI.onUpdatePreferences((_event, prefs) => {
+  pendingNextBreak = prefs.breakTimeInterval * 60;
+
+  if (timerInterval === null || isPaused) {
+    nextBreak = pendingNextBreak;
+    pendingNextBreak = null;
+    resetBreakTimer();
+  }
+  notifications = prefs.notifications;
 });
 
 $("#btn-start-timer").on("click", startTimer);

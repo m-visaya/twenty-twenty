@@ -99,6 +99,10 @@ const handleCloseSettings = (event, prefs) => {
       save.set(key, prefs[key]);
     }
   }
+
+  settingsWindow
+    .getParentWindow()
+    .webContents.send("update-preferences", prefs);
 };
 
 const handleFetchSettings = () => {
@@ -145,6 +149,13 @@ const toggleClose = (event) => {
 
 // Globally enable sandboxing for all renderers
 app.enableSandbox();
+
+//set auto launch on system startup
+app.setLoginItemSettings({
+  openAtLogin: save.get("launchOnStartup"),
+});
+
+app.setName("twemty twenty");
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
