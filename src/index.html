@@ -2,6 +2,16 @@
 <html>
   <head>
     <meta charset="UTF-8" />
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"
+    />
+    <meta
+      http-equiv="X-Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>twenty twenty</title>
     <link rel="stylesheet" href="index.css" />
     <link rel="stylesheet" href="./dependencies/bootstrap/css/bootstrap.css" />
@@ -156,6 +166,7 @@
               <i
                 class="bi bi-pause-fill text-yellow btn-icon display-1 lh-1"
                 id="btn-resume-pause2"
+                style="display: none"
               ></i>
             </div>
           </div>
