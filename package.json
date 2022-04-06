@@ -2,7 +2,7 @@
   "name": "twenty-twenty",
   "productName": "twenty twenty",
   "version": "1.0.0",
-  "description": "A desktop app for setting reminders to take frequent breaks.",
+  "description": "A desktop app for setting reminders to take frequent breaks",
   "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -24,14 +24,14 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "twenty-twenty"
+            "name": "twenty-twenty",
+            "setupIcon": "src/assets/icon.ico",
+            "loadingGif": "src/assets/icon-loading.gif",
+            "description": "twenty twenty - Installer"
           }
         },
         {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
+          "name": "@electron-forge/maker-zip"
         },
         {
           "name": "@electron-forge/maker-deb",
