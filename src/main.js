@@ -59,17 +59,26 @@ const createWindow = () => {
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
+    show: false,
     frame: false,
   });
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "index.html"));
 
+  mainWindow.once("ready-to-show", () => {
+    mainWindow.show();
+  });
+
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
 };
 
 const handleOpenSettings = (event) => {
+  if (BrowserWindow.getAllWindows().length == 2) {
+    return;
+  }
+
   let theme = save.get("appTheme");
   let nativeDarkTheme = save.get("isNativeThemeDark");
   theme =
@@ -88,7 +97,7 @@ const handleOpenSettings = (event) => {
     autoHideMenuBar: true,
     parent: parent,
     modal: true,
-    show: true,
+    show: false,
     frame: false,
     backgroundColor: theme == "dark" ? "#212529" : "#fff",
     webPreferences: {
@@ -96,6 +105,12 @@ const handleOpenSettings = (event) => {
     },
   });
   settingsWindow.loadFile(path.join(__dirname, "settings.html"));
+
+  settingsWindow.once("ready-to-show", () => {
+    setTimeout(() => {
+      settingsWindow.show();
+    }, 50);
+  });
 };
 
 const handleCloseSettings = (event, prefs) => {

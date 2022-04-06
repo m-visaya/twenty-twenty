@@ -16,9 +16,16 @@ body.dark-mode {
   --color-form-div:#363434 ;
 }
 
-header {
+*:focus {
+  box-shadow: none !important;
+}
+
+html {
   -webkit-user-select: none;
   user-select: none;
+}
+
+header {
   -webkit-app-region: drag;
   z-index: 5;
 }
@@ -56,7 +63,7 @@ body.dark-mode .controls .close:hover {
 
 .controls {
   height: 100%;
-  -webkit-app-region: none;
+  -webkit-app-region: no-drag;
 }
 
 .controls .bi {
@@ -265,11 +272,6 @@ button.bg-gray:hover {
 .form-check-input {
   height: 1.4rem !important;
   width: 2.5rem !important;
-}
-
-.bg-yellow:focus,
-.form-check-input:focus {
-  box-shadow: 0 0 0 0.25rem var(--color-primary-light) !important;
 }
 
 #btn-close-settings {
