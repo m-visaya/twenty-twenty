@@ -4,6 +4,7 @@ let closeSettings = () => {
     notifications: !!$("#prefs-desktopNotifications").prop("checked") || false,
     launchOnStartup: !!$("#prefs-launchOnStartup").prop("checked") || false,
     autoStartTimer: !!$("#prefs-autoStartTimer").prop("checked") || false,
+    pauseEveryBreak: !!$("#prefs-pauseEveryBreak").prop("checked") || false,
   };
 
   window.electronAPI.closeSettings(prefs);
@@ -16,6 +17,7 @@ let loadSettings = async () => {
   $("#prefs-desktopNotifications").prop("checked", prefs.notifications);
   $("#prefs-launchOnStartup").prop("checked", prefs.launchOnStartup);
   $("#prefs-autoStartTimer").prop("checked", prefs.autoStartTimer);
+  $("#prefs-pauseEveryBreak").prop("checked", prefs.pauseEveryBreak);
 
   await toggleAppTheme(prefs.appTheme);
 };

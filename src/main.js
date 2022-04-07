@@ -1,4 +1,12 @@
-const { app, BrowserWindow, ipcMain, nativeTheme } = require("electron");
+const {
+  app,
+  BrowserWindow,
+  ipcMain,
+  nativeTheme,
+  Tray,
+  Menu,
+  Notification,
+} = require("electron");
 const path = require("path");
 const fs = require("fs");
 
@@ -7,9 +15,12 @@ const defaults = {
   launchOnStartup: false,
   notifications: true,
   autoStartTimer: false,
+  pauseEveryBreak: false,
   breakTimeInterval: 20,
   isNativeThemeDark: nativeTheme.shouldUseDarkColors,
 };
+
+let tray = null;
 
 // Create class for storing user data
 class Save {
@@ -69,6 +80,24 @@ const createWindow = () => {
   mainWindow.once("ready-to-show", () => {
     mainWindow.show();
   });
+
+  tray = new Tray("src/assets/icon.ico");
+
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: "Show App",
+      click: () =>
+        mainWindow.isVisible() ? mainWindow.focus() : mainWindow.show(),
+    },
+    { type: "separator" },
+    { label: "Exit twenty twenty", click: app.exit },
+  ]);
+
+  tray.setToolTip("twenty twenty");
+  tray.setContextMenu(contextMenu);
+  tray.on("click", () =>
+    mainWindow.isVisible() ? mainWindow.hide() : mainWindow.show()
+  );
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
@@ -168,7 +197,18 @@ const toggleMaximize = (event) => {
 
 const toggleClose = (event) => {
   const window = BrowserWindow.fromWebContents(event.sender);
-  window.close();
+  window.hide();
+
+  new Notification({
+    title: "App minimized to system tray",
+    body: "Twenty twenty will still run in the background",
+    icon: "src/assets/icon.ico",
+  }).show();
+};
+
+const setWindowFocus = (event) => {
+  const window = BrowserWindow.fromWebContents(event.sender);
+  window.isVisible() ? window.focus() : window.show();
 };
 
 // Globally enable sandboxing for all renderers
@@ -189,6 +229,7 @@ app.whenReady().then(() => {
   ipcMain.on("toggle-minimize", toggleMinimize);
   ipcMain.on("toggle-maximize", toggleMaximize);
   ipcMain.on("toggle-close", toggleClose);
+  ipcMain.on("set-window-focus", setWindowFocus);
 
   ipcMain.handle("fetch-settings", handleFetchSettings);
   ipcMain.handle("fetch-setting", handleFetchSetting);

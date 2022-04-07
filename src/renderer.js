@@ -3,6 +3,7 @@ let timerInterval = null;
 let isPaused = false;
 let pendingNextBreak = null;
 let notifications = true;
+let pauseEveryBreak = false;
 
 var tooltipTriggerList = [].slice.call(
   document.querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -14,10 +15,16 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 
 let fireNotification = (title, body, icon) => {
   if (notifications) {
-    new Notification(title, {
+    let currNotification = new Notification(title, {
       body: body,
       icon: icon,
     });
+
+    // currNotification.on("click", () => alert("dsads"));
+
+    currNotification.addEventListener("click", () =>
+      window.electronAPI.setWindowFocus()
+    );
   }
 };
 
@@ -64,7 +71,7 @@ let timerFunc = () => {
   );
 
   if (seconds == 1 && minutes == 0) {
-    pauseTimer();
+    if (pauseEveryBreak) pauseTimer();
     resetBreakTimer();
     fireNotification(
       "It's time for a break",
@@ -172,6 +179,7 @@ let loadPreferences = async () => {
   nextBreak = prefs.breakTimeInterval * 60;
   resetTimer();
   notifications = prefs.notifications;
+  pauseEveryBreak = prefs.pauseEveryBreak;
   await toggleAppTheme(prefs.appTheme);
 
   if (prefs.autoStartTimer) {
@@ -226,6 +234,7 @@ window.electronAPI.onUpdatePreferences((_event, prefs) => {
     resetBreakTimer();
   }
   notifications = prefs.notifications;
+  pauseEveryBreak = prefs.pauseEveryBreak;
 });
 
 $("#btn-start-timer").on("click", startTimer);
