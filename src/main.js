@@ -59,6 +59,13 @@ if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
+const gotTheLock = app.requestSingleInstanceLock();
+
+// Prevent multiple instaces of the app
+if (!gotTheLock) {
+  app.exit();
+}
+
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -81,7 +88,7 @@ const createWindow = () => {
     mainWindow.show();
   });
 
-  tray = new Tray("src/assets/icon.ico");
+  tray = new Tray(path.join(__dirname, "assets/icon.ico"));
 
   const contextMenu = Menu.buildFromTemplate([
     {
@@ -202,7 +209,7 @@ const toggleClose = (event) => {
   new Notification({
     title: "App minimized to system tray",
     body: "Twenty twenty will still run in the background",
-    icon: "src/assets/icon.ico",
+    icon: path.join(__dirname, "assets/icon.ico"),
   }).show();
 };
 
