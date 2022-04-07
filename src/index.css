@@ -87,12 +87,16 @@ body.dark-mode .controls .close:hover {
 /* scrollbar */
 /* width */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 8px; 
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
+}
+
+#body-settings.dark-mode::-webkit-scrollbar-track {
+  background: #414141 !important;
 }
 
 /* Handle */
@@ -101,9 +105,17 @@ body.dark-mode .controls .close:hover {
   border-radius: 2rem;
 }
 
+#body-settings.dark-mode::-webkit-scrollbar-thumb{
+  background: rgba(19, 19, 19, 0.389);
+}
+
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(85, 85, 85, 0.518);
+}
+
+#body-settings.dark-mode::-webkit-scrollbar-thumb:hover {
+  background: rgba(20, 20, 20, 0.518);
 }
 
 label {
