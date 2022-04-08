@@ -221,14 +221,21 @@ let toggleAppTheme = async (theme) => {
   setTimeout(() => $("#filter-gradient").toggle(), 800);
 };
 
+let expandWindow = (expand) => {
+  if (expand) {
+    window.resizeTo(1080, window.innerHeight);
+  } else {
+    window.resizeTo(500, window.innerHeight);
+  }
+};
+
 window.electronAPI.onUpdateTheme((_event, value) => {
   toggleAppTheme(value);
 });
 
 window.electronAPI.onUpdatePreferences((_event, prefs) => {
   pendingNextBreak = prefs.breakTimeInterval * 60;
-
-  if (timerInterval === null || isPaused) {
+  if ((timerInterval === null || isPaused) && nextBreak != pendingNextBreak) {
     nextBreak = pendingNextBreak;
     pendingNextBreak = null;
     resetBreakTimer();
@@ -250,3 +257,6 @@ $("#control-maximize").on("click", toggleMaximize);
 $("#control-close").on("click", toggleClose);
 
 $("#body-index").ready(loadPreferences);
+
+$("#section-control-expand").on("click", () => expandWindow(true));
+$("#section-control-hide").on("click", () => expandWindow(false));

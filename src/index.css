@@ -16,6 +16,19 @@ body.dark-mode {
   --color-form-div:#363434 ;
 }
 
+main div div :nth-child(2) {
+  animation: fade 500ms ease !important;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 *:focus {
   box-shadow: none !important;
 }
@@ -73,6 +86,10 @@ body.dark-mode .controls .close:hover {
 
 #options {
   top: 3rem;
+}
+
+.tooltip {
+  opacity: 0.95 !important;
 }
 
 .tooltip .tooltip-inner {
@@ -140,15 +157,11 @@ label {
 
 .bg-gray {
   background-color: var(--color-secondary) !important;
-  color: #ffffff !important;
+  color: #ffffff;
 }
 
 .btn-icon {
   font-size: 3rem;
-}
-
-#btn-start-timer2 {
- color: #222 !important;
 }
 
 .timer-fill {
@@ -160,7 +173,7 @@ label {
 
 body.dark-mode .timer-fill {
   stroke: #fff;
-  stroke-width: 0.83rem;
+  stroke-width: 0.8rem;
 
 }
 
@@ -168,7 +181,7 @@ body.dark-mode .timer-fill {
   stroke-width: 0.8rem;
   background: conic-gradient(
     from 0deg at 50% 50%,
-    #ede9a2 0%,
+    #fffbad 0%,
     #ffff75 25%,
     #efe65c 50%,
     #ffc5a5 75%,
@@ -192,14 +205,12 @@ body.dark-mode #filter-gradient {
 
 .timer-base {
   fill: none;
-  /* stroke: var(--color-primary-light); */
-  stroke: gainsboro;
-  stroke-width: 0.83rem;
+  stroke: #ebebeb;
+  stroke-width: 0.82rem;
   stroke-dasharray: 252, 252;
   transition-property: all;
   transition-duration: 1s;
   transition-timing-function: linear;
-  /* animation: timer ease-in-out infinite 10s; */
 }
 
 .timer-svg {
@@ -212,7 +223,7 @@ body.dark-mode #filter-gradient {
 
 @keyframes click {
   25% {
-    transform: scale(1.08);
+    transform: scale(1.05);
   }
   100% {
     transform: scale(1);
@@ -242,23 +253,50 @@ body.dark-mode #filter-gradient {
   color: hsl(56, 82%, 50%);
 }
 
+button.bg-yellow {
+  color: #222;
+}
+
 button.bg-yellow:hover {
   background-color: hsl(56, 82%, 50%) !important;
   transition: all ease-in-out 200ms;
 }
 
+button.bg-gray {
+  color: var(--color-tooltip);
+}
+
 button.bg-gray:hover {
-  filter: brightness(50%) !important;
+  color: var(--color-tooltip);
+  filter: brightness(80%) !important;
   transition: all ease-in-out 200ms;
 }
 
-@keyframes timer {
-  from {
-    stroke-dasharray: 252, 252;
-  }
-  to {
-    stroke-dasharray: 0, 252;
-  }
+#section-expand {
+  height: calc(100% - 2.5rem);
+  margin-top: 2.5rem;
+  z-index: 4;
+  transition: all ease-in-out 200ms;
+  color: var(--color-text);
+  width: 1.75rem;
+}
+
+#section-expand div i {
+  cursor: pointer;
+  z-index: 5;
+  font-size: 1.75rem;
+  color: var(--color-text);
+  transition: all ease-in-out 200ms;
+}
+
+#section-expand div i:hover {
+  filter: brightness(90%);
+}
+
+#section-expand div i:hover ~ div  {
+  transition: all ease-in-out 200ms;
+  background-color: var(--color-form-div);
+  opacity: 0.5;
 }
 
 .form-check, .dropdown {
