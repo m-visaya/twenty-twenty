@@ -1,8 +1,8 @@
 {
-  "name": "twenty-twenty",
+  "name": "twenty twenty",
   "productName": "twenty twenty",
   "version": "1.0.0",
-  "description": "A desktop app for setting reminders to take frequent breaks",
+  "description": "Cross-platform desktop reminder app for frequently taking breaks.",
   "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -19,7 +19,9 @@
   "license": "MIT",
   "config": {
     "forge": {
-      "packagerConfig": {"icon":"src/assets/icon"},
+      "packagerConfig": {
+        "icon":"src/assets/icon"
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
@@ -27,7 +29,7 @@
             "name": "twenty-twenty",
             "setupIcon": "src/assets/icon.ico",
             "loadingGif": "src/assets/icon-loading.gif",
-            "description": "twenty twenty - Installer"
+            "description": "twenty twenty Installer"
           }
         },
         {
@@ -53,6 +55,6 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.63",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
     "@electron-forge/maker-zip": "^6.0.0-beta.63",
-    "electron": "17.2.0"
+    "electron": "18.0.3"
   }
 }
