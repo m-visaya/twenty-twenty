@@ -2,7 +2,7 @@
   "name": "twenty twenty",
   "productName": "twenty twenty",
   "version": "1.0.0",
-  "description": "Cross-platform desktop reminder app for frequently taking breaks.",
+  "description": "Cross-platform desktop app that reminds you to take breaks frequently.",
   "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
