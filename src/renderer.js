@@ -4,6 +4,8 @@ let isPaused = false;
 let pendingNextBreak = null;
 let notifications = true;
 let pauseEveryBreak = false;
+let audio = $("#sound-notification")[0];
+audio.volume = 0.5;
 
 var tooltipTriggerList = [].slice.call(
   document.querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -13,18 +15,15 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
   return new bootstrap.Tooltip(tooltipTriggerEl);
 });
 
-let fireNotification = (title, body, icon) => {
+let fireNotification = (title, body, icon, sound) => {
   if (notifications) {
-    let currNotification = new Notification(title, {
+    window.electronAPI.fireNotification({
       body: body,
       icon: icon,
+      title: title,
+      sound: sound,
     });
-
-    // currNotification.on("click", () => alert("dsads"));
-
-    currNotification.addEventListener("click", () =>
-      window.electronAPI.setWindowFocus()
-    );
+    sound ? audio.play() : null;
   }
 };
 
@@ -76,7 +75,8 @@ let timerFunc = () => {
     fireNotification(
       "It's time for a break",
       "Taking frequent breaks reduces eye strain",
-      "./assets/icon-break-time.png"
+      "assets/icon-break-time.png",
+      true
     );
     return;
   }
@@ -147,7 +147,8 @@ let startTimer = () => {
     fireNotification(
       "Timer Started",
       `Break time reminder every ${Math.floor(nextBreak / 60)} minutes`,
-      "./assets/icon-start-timer.png"
+      "assets/icon-start-timer.png",
+      false
     );
   }
 };
@@ -242,6 +243,11 @@ window.electronAPI.onUpdatePreferences((_event, prefs) => {
   }
   notifications = prefs.notifications;
   pauseEveryBreak = prefs.pauseEveryBreak;
+});
+
+window.electronAPI.onNotificationClose((_event) => {
+  audio.pause();
+  audio.currentTime = 0;
 });
 
 $("#btn-start-timer").on("click", startTimer);

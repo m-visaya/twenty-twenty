@@ -9,8 +9,10 @@ contextBridge.exposeInMainWorld("electronAPI", {
   toggleMinimize: () => ipcRenderer.send("toggle-minimize"),
   toggleMaximize: () => ipcRenderer.send("toggle-maximize"),
   toggleClose: () => ipcRenderer.send("toggle-close"),
-  setWindowFocus: () => ipcRenderer.send("set-window-focus"),
   onUpdateTheme: (callback) => ipcRenderer.on("update-theme", callback),
   onUpdatePreferences: (callback) =>
     ipcRenderer.on("update-preferences", callback),
+  onNotificationClose: (callback) =>
+    ipcRenderer.on("close-notification", callback),
+  fireNotification: (props) => ipcRenderer.invoke("fire-notification", props),
 });

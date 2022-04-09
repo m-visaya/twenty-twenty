@@ -76,6 +76,7 @@ const createWindow = () => {
     minHeight: 480,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
+      backgroundThrottling: false,
     },
     show: false,
     frame: false,
@@ -213,9 +214,24 @@ const toggleClose = (event) => {
   }).show();
 };
 
-const setWindowFocus = (event) => {
+const fireNotification = (event, props) => {
   const window = BrowserWindow.fromWebContents(event.sender);
-  window.isVisible() ? window.focus() : window.show();
+
+  let notification = new Notification({
+    title: props.title,
+    body: props.body,
+    icon: path.join(__dirname, props.icon),
+    timeoutType: props.sound ? "never" : "default",
+  });
+  notification.on("click", () => {
+    window.webContents.send("close-notification");
+    window.isVisible() ? window.focus() : window.show();
+  });
+  notification.on("close", () => {
+    window.webContents.send("close-notification");
+  });
+
+  notification.show();
 };
 
 // Globally enable sandboxing for all renderers
@@ -236,10 +252,10 @@ app.whenReady().then(() => {
   ipcMain.on("toggle-minimize", toggleMinimize);
   ipcMain.on("toggle-maximize", toggleMaximize);
   ipcMain.on("toggle-close", toggleClose);
-  ipcMain.on("set-window-focus", setWindowFocus);
 
   ipcMain.handle("fetch-settings", handleFetchSettings);
   ipcMain.handle("fetch-setting", handleFetchSetting);
+  ipcMain.handle("fire-notification", fireNotification);
 
   save.set("isNativeThemeDark", nativeTheme.shouldUseDarkColors);
 
