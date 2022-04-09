@@ -113,4 +113,10 @@ Email: marco.visaya527@gmail.com
 
 Project Link: https://github.com/m-visaya/twenty-twenty
 
+<br>
+
+## Credits
+
+Notification Sound: https://www.bensound.com/
+
 <p align="right">(<a href="#top">back to top</a>)</p>
